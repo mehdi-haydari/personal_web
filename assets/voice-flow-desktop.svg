@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="810" viewBox="0 0 1140 810" role="img" aria-labelledby="title desc">
+<title id="title">Real-estate voice assistant conversation flow</title>
+<desc id="desc">Audio becomes text, Qwen extracts clues, conversation state is updated, and the portfolio is searched. A strong candidate goes to caller confirmation. Otherwise the assistant asks an eligible question or explains insufficient information. New answers and rejected candidates return to listening. Confirmed matches can produce a temporary callback summary; no real notification is sent.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#c8ff19"/></marker><marker id="loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#42e6ae"/></marker></defs>
+<style>text{font-family:Arial,Helvetica,sans-serif}.label{fill:#a3aaa0;font-size:12px}.heading{fill:#f1f2eb;font-size:16px;font-weight:600}.detail{fill:#b9c0b5;font-size:13px}.decision{fill:#c8ff19;font-size:14px;font-weight:600}.branch{fill:#c8ff19;font-size:12px}.loop-label{fill:#42e6ae;font-size:12px}</style>
+<rect x="30" y="50" width="225" height="100" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="142.5" y="79" class="heading" text-anchor="middle">01  Listen &amp; transcribe</text>
+<text x="142.5" y="101" class="detail" text-anchor="middle">Browser audio → Silero VAD</text>
+<text x="142.5" y="119" class="detail" text-anchor="middle">Whisper → Turkish text</text>
+<rect x="315" y="50" width="225" height="100" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="427.5" y="79" class="heading" text-anchor="middle">02  Extract clues</text>
+<text x="427.5" y="101" class="detail" text-anchor="middle">Qwen → structured fields</text>
+<text x="427.5" y="119" class="detail" text-anchor="middle">ID, source, consultant, details</text>
+<rect x="600" y="50" width="225" height="100" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="712.5" y="79" class="heading" text-anchor="middle">03  Update state</text>
+<text x="712.5" y="101" class="detail" text-anchor="middle">Merge facts across turns</text>
+<text x="712.5" y="119" class="detail" text-anchor="middle">Keep unknown / asked fields</text>
+<rect x="885" y="50" width="225" height="100" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="997.5" y="79" class="heading" text-anchor="middle">04  Search portfolio</text>
+<text x="997.5" y="101" class="detail" text-anchor="middle">Exact ID or scored clues</text>
+<text x="997.5" y="119" class="detail" text-anchor="middle">Fictional sample records</text>
+<path d="M255 100H315" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M540 100H600" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M825 100H885" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M997.5 150V255" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M997.5,255.0 L1097.5,310 L997.5,365.0 L897.5,310Z" fill="#141810" stroke="#849d36"/>
+<text x="997.5" y="305.5" class="decision" text-anchor="middle">Strong</text>
+<text x="997.5" y="324.5" class="decision" text-anchor="middle">candidate?</text>
+<path d="M897.5 310H855" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="875" y="295" class="branch" text-anchor="middle">Yes</text>
+<rect x="630" y="260" width="225" height="100" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="742.5" y="289" class="heading" text-anchor="middle">05  Caller confirms</text>
+<text x="742.5" y="311" class="detail" text-anchor="middle">Read the proposed listing</text>
+<text x="742.5" y="329" class="detail" text-anchor="middle">Ask for explicit confirmation</text>
+<path d="M630 310H570" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="600" y="293" class="branch" text-anchor="middle">Confirmed</text>
+<rect x="345" y="260" width="225" height="100" rx="3" fill="#0e1a14" stroke="#42e6ae"/>
+<text x="457.5" y="289" class="heading" text-anchor="middle">Temporary callback</text>
+<text x="457.5" y="311" class="detail" text-anchor="middle">Collect name + number</text>
+<text x="457.5" y="329" class="detail" text-anchor="middle">Browser state; no message sent</text>
+<path d="M742.5 360V405" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="788" y="390" class="branch" text-anchor="middle">Rejected</text>
+<rect x="630" y="405" width="225" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="742.5" y="434" class="heading" text-anchor="middle">Exclude this candidate</text>
+<text x="742.5" y="456" class="detail" text-anchor="middle">Ask for another clue</text>
+<path d="M630 445H142.5V150" fill="none" stroke="#42e6ae" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#loop)" stroke-dasharray="6 5"/>
+<text x="160" y="215" class="loop-label" text-anchor="start">Another clue →</text>
+<path d="M997.5 365V475" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="997.5" y="415" class="branch" text-anchor="middle">No / unclear</text>
+<path d="M997.5,475.0 L1097.5,530 L997.5,585.0 L897.5,530Z" fill="#141810" stroke="#849d36"/>
+<text x="997.5" y="525.5" class="decision" text-anchor="middle">Useful question</text>
+<text x="997.5" y="544.5" class="decision" text-anchor="middle">available?</text>
+<path d="M897.5 530H855" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="875" y="513" class="branch" text-anchor="middle">Yes</text>
+<rect x="630" y="490" width="225" height="90" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="742.5" y="519" class="heading" text-anchor="middle">Choose the next question</text>
+<text x="742.5" y="541" class="detail" text-anchor="middle">Qwen selects an eligible field</text>
+<text x="742.5" y="559" class="detail" text-anchor="middle">Validate; fallback on failure</text>
+<path d="M630 535H570" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="345" y="490" width="225" height="90" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="457.5" y="519" class="heading" text-anchor="middle">Ask &amp; receive an answer</text>
+<text x="457.5" y="541" class="detail" text-anchor="middle">Question: text / optional TTS</text>
+<text x="457.5" y="559" class="detail" text-anchor="middle">Caller: new clue / unknown</text>
+<path d="M345 535H142.5V150" fill="none" stroke="#42e6ae" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#loop)" stroke-dasharray="6 5"/>
+<circle cx="142.5" cy="445" r="3" fill="#42e6ae"/>
+<path d="M997.5 585V680" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="1013" y="634" class="branch" text-anchor="start">No</text>
+<rect x="885" y="680" width="225" height="90" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="997.5" y="709" class="heading" text-anchor="middle">Explain uncertainty</text>
+<text x="997.5" y="731" class="detail" text-anchor="middle">Enough detail is unavailable</text>
+<text x="997.5" y="749" class="detail" text-anchor="middle">Wait for a new clue</text>
+<text x="30" y="740" class="loop-label" text-anchor="start">Dashed arrows return new speech to step 01.</text>
+<text x="30" y="765" class="label" text-anchor="start">Current prototype: browser input, fictional listings and temporary callback details.</text>
+</svg>

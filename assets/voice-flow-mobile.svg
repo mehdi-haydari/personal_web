@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="1600" viewBox="0 0 360 1600" role="img" aria-labelledby="title desc">
+<title id="title">Real-estate voice assistant conversation flow</title>
+<desc id="desc">Audio becomes text, Qwen extracts clues, conversation state is updated, and the portfolio is searched. A strong candidate goes to caller confirmation. Otherwise the assistant asks an eligible question or explains insufficient information. New answers and rejected candidates return to listening. Confirmed matches can produce a temporary callback summary; no real notification is sent.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#c8ff19"/></marker><marker id="loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#42e6ae"/></marker></defs>
+<style>text{font-family:Arial,Helvetica,sans-serif}.label{fill:#a3aaa0;font-size:12px}.heading{fill:#f1f2eb;font-size:16px;font-weight:600}.detail{fill:#b9c0b5;font-size:13px}.decision{fill:#c8ff19;font-size:14px;font-weight:600}.branch{fill:#c8ff19;font-size:12px}.loop-label{fill:#42e6ae;font-size:12px}</style><style>.detail{font-size:14px}.heading{font-size:17px}.branch,.loop-label{font-size:13px}</style>
+<circle cx="23" cy="80" r="15" fill="#0e1a14" stroke="#42e6ae"/>
+<text x="23" y="85" class="loop-label" text-anchor="middle">A</text>
+<rect x="50" y="40" width="260" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="69" class="heading" text-anchor="middle">01  Listen &amp; transcribe</text>
+<text x="180.0" y="91" class="detail" text-anchor="middle">Browser → Silero VAD</text>
+<text x="180.0" y="109" class="detail" text-anchor="middle">Whisper → Turkish text</text>
+<rect x="50" y="160" width="260" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="189" class="heading" text-anchor="middle">02  Extract clues</text>
+<text x="180.0" y="211" class="detail" text-anchor="middle">Qwen → structured fields</text>
+<rect x="50" y="280" width="260" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="309" class="heading" text-anchor="middle">03  Update state</text>
+<text x="180.0" y="331" class="detail" text-anchor="middle">Merge facts; track unknowns</text>
+<text x="180.0" y="349" class="detail" text-anchor="middle">and previous questions</text>
+<rect x="50" y="400" width="260" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="429" class="heading" text-anchor="middle">04  Search portfolio</text>
+<text x="180.0" y="451" class="detail" text-anchor="middle">Exact ID or scored clues</text>
+<text x="180.0" y="469" class="detail" text-anchor="middle">Fictional sample records</text>
+<path d="M180 120V160" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M180 240V280" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M180 360V400" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M180 480V525" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M180,525.0 L270.0,575 L180,625.0 L90.0,575Z" fill="#141810" stroke="#849d36"/>
+<text x="180" y="570.5" class="decision" text-anchor="middle">Strong</text>
+<text x="180" y="589.5" class="decision" text-anchor="middle">candidate?</text>
+<path d="M270 575H335V722.5H310" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="294" y="558" class="branch" text-anchor="middle">Yes</text>
+<rect x="50" y="675" width="260" height="95" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="704" class="heading" text-anchor="middle">05  Caller confirms</text>
+<text x="180.0" y="726" class="detail" text-anchor="middle">If rejected: exclude candidate;</text>
+<text x="180.0" y="744" class="detail" text-anchor="middle">return to A for another clue.</text>
+<path d="M180 770V815" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="194" y="797" class="branch" text-anchor="start">Confirmed</text>
+<rect x="50" y="815" width="260" height="80" rx="3" fill="#0e1a14" stroke="#42e6ae"/>
+<text x="180.0" y="844" class="heading" text-anchor="middle">Temporary callback</text>
+<text x="180.0" y="866" class="detail" text-anchor="middle">Name + number in browser state</text>
+<text x="180.0" y="884" class="detail" text-anchor="middle">No real notification is sent</text>
+<path d="M90 575H20V1060H90" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="22" y="558" class="branch" text-anchor="start">No / unclear</text>
+<path d="M180,1005.0 L270.0,1060 L180,1115.0 L90.0,1060Z" fill="#141810" stroke="#849d36"/>
+<text x="180" y="1055.5" class="decision" text-anchor="middle">Useful question</text>
+<text x="180" y="1074.5" class="decision" text-anchor="middle">available?</text>
+<path d="M180 1115V1170" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="194" y="1147" class="branch" text-anchor="start">Yes</text>
+<rect x="50" y="1170" width="260" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="1199" class="heading" text-anchor="middle">Choose the next question</text>
+<text x="180.0" y="1221" class="detail" text-anchor="middle">Qwen field selection + validation</text>
+<text x="180.0" y="1239" class="detail" text-anchor="middle">Rule-based fallback if needed</text>
+<path d="M180 1250V1290" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="50" y="1290" width="260" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="1319" class="heading" text-anchor="middle">Ask &amp; receive an answer</text>
+<text x="180.0" y="1341" class="detail" text-anchor="middle">Question: text / optional TTS</text>
+<text x="180.0" y="1359" class="detail" text-anchor="middle">Caller: new clue / unknown</text>
+<path d="M180 1370V1394" fill="none" stroke="#42e6ae" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#loop)" stroke-dasharray="6 5"/>
+<circle cx="180" cy="1410" r="16" fill="#0e1a14" stroke="#42e6ae"/>
+<text x="180" y="1415" class="loop-label" text-anchor="middle">A</text>
+<text x="205" y="1415" class="loop-label" text-anchor="start">Return to listening</text>
+<path d="M270 1060H335V1540H310" fill="none" stroke="#c8ff19" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="293" y="1042" class="branch" text-anchor="middle">No</text>
+<rect x="50" y="1500" width="260" height="80" rx="3" fill="#0c0d0c" stroke="#465035"/>
+<text x="180.0" y="1529" class="heading" text-anchor="middle">Explain uncertainty</text>
+<text x="180.0" y="1551" class="detail" text-anchor="middle">Wait for a new clue</text>
+</svg>

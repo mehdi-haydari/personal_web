@@ -63,6 +63,16 @@
     <section class="case-section" id="flow" aria-labelledby="flow-title">
       <div class="eyebrow">02 / How it works</div><h2 id="flow-title">From speech to a useful next step.</h2>
       <p>The current input is a browser microphone. A text test panel exercises the same extraction, dialogue and portfolio flow without speech recognition.</p>
+      <figure class="case-flowchart" aria-labelledby="flowchart-caption">
+        <div class="flowchart-heading"><span>CONVERSATION FLOW</span><span>Local prototype</span></div>
+        <picture>
+          <source media="(max-width: 760px)" srcset="../../assets/voice-flow-mobile.svg" width="360" height="1600">
+          <img src="../../assets/voice-flow-desktop.svg" width="1140" height="810" alt="Flowchart: listen and transcribe, extract clues, update conversation state, and search listings. A strong candidate goes to caller confirmation and a temporary callback summary. Otherwise ask a useful question and loop back with the answer, or explain that there is not enough information." decoding="async">
+        </picture>
+        <figcaption id="flowchart-caption">New answers return to listening and update the search. A rejected property is excluded. When no useful question remains, the assistant explains the uncertainty. Callback details are temporary; no message is sent.</figcaption>
+      </figure>
+      <details class="case-details flow-step-details">
+        <summary>Read the six steps in detail</summary>
       <ol class="case-pipeline">
         <li><span class="step-number">01 / LISTEN</span><h3>Find the speech boundary.</h3><p>Silero VAD detects speech and pauses in the audio stream. A completed utterance goes to whisper.cpp for Turkish transcription.</p></li>
         <li><span class="step-number">02 / EXTRACT</span><h3>Turn words into fields.</h3><p>Qwen returns structured listing clues: source, number, consultant, location, property type, room layout, floor and explicitly unknown information.</p></li>
@@ -71,6 +81,7 @@
         <li><span class="step-number">05 / CLARIFY</span><h3>Ask about a difference.</h3><p>Candidate field distributions constrain the next question. Qwen chooses an eligible field; application checks reject forbidden choices. No useful question is a valid outcome.</p></li>
         <li><span class="step-number">06 / CONFIRM</span><h3>Check the match.</h3><p>The caller confirms or rejects a proposed listing. The demo can collect a temporary callback summary and optionally speak its reply with FreyaTTS-small.</p></li>
       </ol>
+      </details>
       <div class="case-callout"><p><strong>The next question depends on the remaining candidates.</strong> If all candidates are apartments for rent, asking “Was it for rent?” adds little. A floor or room-layout question may help—unless the caller has already said they do not know.</p></div>
     </section>
 

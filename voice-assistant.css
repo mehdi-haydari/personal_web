@@ -100,3 +100,16 @@
   .case-code { padding: 18px; font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.case-flowchart { margin: 30px 0 24px; border: 1px solid var(--line); background: #090b08; }
+.flowchart-heading { display: flex; justify-content: space-between; gap: 20px; padding: 17px 22px; border-bottom: 1px solid var(--line); color: var(--muted); font: 10px/1.7 var(--mono); }
+.flowchart-heading span:first-child { color: var(--lime); }
+.case-flowchart picture, .case-flowchart img { display: block; width: 100%; }
+.case-flowchart img { height: auto; }
+.case-flowchart figcaption { padding: 18px 22px; border-top: 1px solid var(--line); font: 12px/1.8 var(--mono); color: var(--muted); }
+.flow-step-details { margin: 0; }
+.flow-step-details .case-pipeline { margin-top: 22px; }
+@media (max-width: 760px) {
+  .flowchart-heading { padding: 15px 12px; gap: 10px; font-size: 9px; }
+  .case-flowchart figcaption { padding: 16px; font-size: 11px; }
+}
