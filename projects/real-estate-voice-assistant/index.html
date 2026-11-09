@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a09">
+  <meta name="description" content="How Mehdi Heydari built a local Turkish real-estate voice-assistant prototype with Whisper, Qwen, FastAPI and FreyaTTS: workflow, engineering decisions, installation and limitations.">
+  <title>Real-estate voice assistant — Mehdi Heydari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../voice-assistant.css">
+</head>
+<body class="case-study">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="shell top" id="top">
+    <a class="logo" href="../../index.html" aria-label="Mehdi Heydari home">MH</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../../index.html#work">Work</a>
+      <a href="../../index.html#experience">Experience</a>
+      <a href="https://github.com/mehdi-haydari/turkish-real-estate-voice-assistant" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a href="../../index.html#contact">Contact</a>
+    </nav>
+    <div class="status"><i aria-hidden="true"></i>Istanbul, Turkey</div>
+  </header>
+  <main id="main" class="shell">
+    <section class="case-hero" aria-labelledby="case-title">
+      <a class="case-back" href="../../index.html#work">← Back to selected work</a>
+      <div class="case-hero-layout">
+        <div>
+          <div class="eyebrow">Engineering case / Applied AI</div>
+          <h1 id="case-title">A voice assistant.<br><span class="lime">For incomplete clues.</span></h1>
+          <p class="case-intro">A local Turkish voice-assistant prototype that helps a real-estate office identify the property a caller means—even when the conversation starts with “I saw your number on a banner.”</p>
+          <div class="case-state"><strong>Browser prototype · In development</strong><span>Source available on GitHub</span></div>
+        </div>
+        <div class="case-hero-visual" aria-label="Illustrative context: banner source, rental apartment clue, and several possible listings">
+          <div class="voice-wave" aria-hidden="true"><i style="--bar:20"></i><i style="--bar:38"></i><i style="--bar:65"></i><i style="--bar:32"></i><i style="--bar:90"></i><i style="--bar:58"></i><i style="--bar:100"></i><i style="--bar:72"></i><i style="--bar:43"></i><i style="--bar:80"></i><i style="--bar:35"></i><i style="--bar:55"></i><i style="--bar:25"></i></div>
+          <div class="context-row"><span>SOURCE</span><strong>Street banner</strong></div>
+          <div class="context-row"><span>KNOWN</span><strong>Rental · Apartment</strong></div>
+          <div class="context-row"><span>RESULT</span><strong>Several possible listings</strong></div>
+          <p class="illustration-label">Illustrative search context, not a live call.</p>
+        </div>
+      </div>
+      <div class="case-meta"><div><span>My role</span>End-to-end prototype development</div><div><span>Focus</span>Voice · Dialogue · Search</div><div><span>Execution</span>Local inference on macOS</div></div>
+    </section>
+
+    <nav class="case-contents" aria-label="Case study sections"><a href="#problem">The problem</a><a href="#flow">How it works</a><a href="#decisions">Decisions</a><a href="#technology">Technology</a><a href="#limits">Limits &amp; evidence</a><a href="#installation">Installation</a></nav>
+
+    <section class="case-section" id="problem" aria-labelledby="problem-title">
+      <div class="eyebrow">01 / The problem</div><h2 id="problem-title">The caller rarely has every detail.</h2>
+      <div class="case-two-col">
+        <div><p>The idea came from the everyday workflow of a real-estate office. People call after seeing a listing on Sahibinden or a phone number on a physical banner. Some know the listing ID. Others remember only that it was a rental apartment.</p><p>The useful task is to collect the clues they actually have, identify a listing when there is enough evidence, and prepare callback details. A caller who does not know the district or consultant should not get stuck answering the same question.</p></div>
+        <figure class="case-quote"><blockquote style="margin:0"><p lang="tr">“Afişteki numaranızı gördüm. Kiralık bir daireydi.”</p></blockquote><figcaption>“I saw your number on the banner. It was an apartment for rent.”<br>An illustrative caller scenario.</figcaption></figure>
+      </div>
+      <div class="case-routes">
+        <div class="case-route"><b>A / LISTING NUMBER</b><strong>A Sahibinden ID is available.</strong><p>Normalize the stated number and use an exact lookup. Ask the caller to confirm the matching record.</p></div>
+        <div class="case-route"><b>B / CONSULTANT</b><strong>The caller remembers a name.</strong><p>Restrict the search to that consultant’s records. One consultant may represent several properties, so the name alone may not identify the listing.</p></div>
+        <div class="case-route"><b>C / PARTIAL CLUES</b><strong>The banner is all they remember.</strong><p>Use location, rent/sale, property type, rooms, floor or surroundings to rank candidates. Ask for useful missing evidence, and allow the result to remain unresolved.</p></div>
+      </div>
+    </section>
+
+    <section class="case-section" id="flow" aria-labelledby="flow-title">
+      <div class="eyebrow">02 / How it works</div><h2 id="flow-title">From speech to a useful next step.</h2>
+      <p>The current input is a browser microphone. A text test panel exercises the same extraction, dialogue and portfolio flow without speech recognition.</p>
+      <ol class="case-pipeline">
+        <li><span class="step-number">01 / LISTEN</span><h3>Find the speech boundary.</h3><p>Silero VAD detects speech and pauses in the audio stream. A completed utterance goes to whisper.cpp for Turkish transcription.</p></li>
+        <li><span class="step-number">02 / EXTRACT</span><h3>Turn words into fields.</h3><p>Qwen returns structured listing clues: source, number, consultant, location, property type, room layout, floor and explicitly unknown information.</p></li>
+        <li><span class="step-number">03 / REMEMBER</span><h3>Keep context across turns.</h3><p>The application merges new facts with earlier answers. It tracks unavailable information and previously asked topics in temporary browser state.</p></li>
+        <li><span class="step-number">04 / SEARCH</span><h3>Rank the possible properties.</h3><p>A separate FastAPI service searches fictional JSON listings. Exact IDs take priority; field matches and contradictions contribute to explainable candidate scores.</p></li>
+        <li><span class="step-number">05 / CLARIFY</span><h3>Ask about a difference.</h3><p>Candidate field distributions constrain the next question. Qwen chooses an eligible field; application checks reject forbidden choices. No useful question is a valid outcome.</p></li>
+        <li><span class="step-number">06 / CONFIRM</span><h3>Check the match.</h3><p>The caller confirms or rejects a proposed listing. The demo can collect a temporary callback summary and optionally speak its reply with FreyaTTS-small.</p></li>
+      </ol>
+      <div class="case-callout"><p><strong>The next question depends on the remaining candidates.</strong> If all candidates are apartments for rent, asking “Was it for rent?” adds little. A floor or room-layout question may help—unless the caller has already said they do not know.</p></div>
+    </section>
+
+    <section class="case-section" id="decisions" aria-labelledby="decisions-title">
+      <div class="eyebrow">03 / Engineering decisions</div><h2 id="decisions-title">Bound the model’s responsibilities.</h2>
+      <article class="case-decision"><h3>Local inference, separate components.</h3><div><p>I chose local speech and language models to explore an office-controlled installation and avoid making the prototype depend on hosted inference for every turn. Speech recognition, the LLM, search and speech synthesis run as separate processes.</p><p class="tradeoff">Trade-off: local execution moves the compute and maintenance burden onto the installation machine. Hardware support and response time need measurement.</p></div></article>
+      <article class="case-decision"><h3>Use application code for facts and rules.</h3><div><p>The LLM interprets language; application code performs lookups, maintains state and checks eligible question fields. Listing IDs use exact matching. Candidate scores have visible field contributions rather than an unexplained model confidence value.</p><p class="tradeoff">Trade-off: the scoring weights are initial heuristics. Similar properties, incorrect transcriptions and conflicting clues can still lead to a poor ranking.</p></div></article>
+      <article class="case-decision"><h3>Treat “I don’t know” as information.</h3><div><p>A missing answer and an unavailable answer are different states. Unknown fields should constrain future questions. The application validates a structured field identifier alongside the model’s question, with a rule-based fallback if generation fails.</p><p class="tradeoff">Trade-off: wording, state updates and fallback paths must follow the same policy. Repeating an unavailable question was a concrete failure mode uncovered during development.</p></div></article>
+      <article class="case-decision"><h3>Start with sample records.</h3><div><p>Fictional listings make candidate scores and dialogue mistakes easier to inspect before connecting a real office database. This prototype uses structured lookup and scoring; PostgreSQL, pgvector and RAG are planned extensions.</p><p class="tradeoff">Trade-off: success against a small sample portfolio does not establish accuracy with real listings or real callers.</p></div></article>
+    </section>
+
+    <section class="case-section" id="technology" aria-labelledby="technology-title">
+      <div class="eyebrow">04 / Technology choices</div><h2 id="technology-title">A stack chosen for local experimentation.</h2>
+      <table class="case-tech"><caption>These are integration choices for the prototype. I did not train the underlying models.</caption><thead><tr><th scope="col">Responsibility</th><th scope="col">Choice</th><th scope="col">Why I chose it</th></tr></thead><tbody>
+        <tr><td>Speech boundaries</td><td>Silero VAD · ONNX Runtime</td><td>A dedicated speech detector gives the application an explicit point at which to process an utterance. Silence thresholds remain tunable.</td></tr>
+        <tr><td>Turkish transcription</td><td>Whisper large-v3-turbo · whisper.cpp</td><td>Multilingual recognition with a native local runtime. The turbo model is a starting trade-off between recognition quality and compute; speed still needs validation on target hardware.</td></tr>
+        <tr><td>Extraction &amp; follow-up</td><td>Qwen3-4B-Instruct-2507 · Q4_K_M · llama.cpp</td><td>A compact instruction model and 4-bit weights keep local experimentation practical. JSON-schema output supports structured extraction and constrained field selection.</td></tr>
+        <tr><td>Service APIs &amp; search</td><td>Python · FastAPI · Sample JSON</td><td>Small HTTP services keep model execution and portfolio logic independently testable. JSON records make the first ranking experiments inspectable without a database installation.</td></tr>
+        <tr><td>Turkish voice output</td><td>FreyaTTS-small · PyTorch · AudioVAE2</td><td>A locally runnable Turkish speech model provides an optional spoken reply. The current path produces a complete audio file before playback, adding latency.</td></tr>
+        <tr><td>Audio transport</td><td>Web Audio · WebSocket</td><td>The browser provides a repeatable microphone test surface. Audio frames travel to the local service without requiring phone-line integration first.</td></tr>
+      </tbody></table>
+    </section>
+
+    <section class="case-section" id="limits" aria-labelledby="limits-title">
+      <div class="eyebrow">05 / Evidence &amp; restrictions</div><h2 id="limits-title">What the prototype proves—and what is still open.</h2>
+      <div class="case-two-col"><div><h3>What I have checked</h3><p>An initial text-only evaluation covered 20 scenarios: 15 passed, 4 failed and 1 was partial. Several failures involved extracting an explicitly stated location or consultant. That report is an early baseline, not a current accuracy claim.</p><p>The packaged repository also has 18 lightweight Python and JavaScript checks covering installer behavior and dialogue guards. They use fixtures and mocked services; they do not measure real model or speech quality.</p><a class="project-link" href="https://github.com/mehdi-haydari/turkish-real-estate-voice-assistant/blob/main/docs/initial-text-evaluation.md" target="_blank" rel="noopener noreferrer">Read the initial evaluation ↗</a></div>
+      <div><h3>Current restrictions</h3><ul class="case-list"><li>Input is a browser microphone, not a real telephone call.</li><li>Listings are fictional; there is no production office database or implemented RAG pipeline.</li><li>Callback details are temporary browser state. No consultant or WhatsApp notification is sent.</li><li>End-to-end audio is not fully streaming. Local response time has been slow in testing; a new stage-by-stage benchmark is still needed.</li><li>Some callers simply lack enough identifying information. The system must handle that without inventing a match.</li></ul></div></div>
+      <div class="case-callout"><p><strong>Next iteration:</strong> evaluate multi-turn conversations with repeated unknown answers, corrections and rejected candidates; measure each audio/model stage; then connect durable office data and a real call/notification workflow separately.</p></div>
+    </section>
+
+    <section class="case-section" id="installation" aria-labelledby="installation-title">
+      <div class="eyebrow">06 / Native installation</div><h2 id="installation-title">Keep the source small. Fetch the models.</h2>
+      <div class="case-two-col"><div><p>The public repository contains application code, fictional data, tests and a native macOS installer. Model weights, third-party source, Python environments and builds are downloaded into an ignored local directory.</p><p>The installer records upstream revisions and verifies model downloads by size and SHA-256. It supports CPU and Apple Silicon Metal profiles; TTS is optional, with CPU and an MPS option to evaluate.</p></div><div><p>This demonstrates a local deployment approach for an office-controlled installation. First setup needs internet access and several GB of storage; inference uses installed local assets.</p><p><strong>A full first-time installation and audio session on a clean Mac have not yet been verified end to end.</strong> Linux, Windows and unattended office deployment have not been validated.</p></div></div>
+      <pre class="case-code"><code># After cloning the repository; prerequisites are in the README.
+PYTHON=python3.12 ./setup.sh --with-tts
+PYTHON=python3.12 ./run.sh</code></pre>
+      <div class="case-actions"><a class="action primary" href="https://github.com/mehdi-haydari/turkish-real-estate-voice-assistant" target="_blank" rel="noopener noreferrer">Explore the source <span aria-hidden="true">↗</span></a><a class="action" href="../../index.html#contact">Discuss the project <span aria-hidden="true">↗</span></a></div>
+    </section>
+    <footer class="case-footer"><span>© 2026 Mehdi Heydari</span><a href="../../index.html#work">← Selected work</a><a class="footer-mark" href="#top">Back to top ↑</a></footer>
+  </main>
+</body>
+</html>
