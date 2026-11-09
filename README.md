@@ -17,7 +17,7 @@ python3 -m http.server 8766 --bind 127.0.0.1
 - `voice-assistant.css`: project-card and case-study styles.
 - `projects/real-estate-voice-assistant/index.html`: the local AI prototype case study, decisions, technology rationale, evaluation and current restrictions.
 - `assets/artikelsense-icon.png`: actual ArtikelSense app icon.
-- `Mehdi-Heydari-Resume.pdf`: the current full-stack résumé, linked from the hero and contact section.
+- `Mehdi-Heydari-Resume.pdf`: the current general software-engineering résumé, including the published ArtikelSense app and local Voice AI Agent prototype; linked from the hero and contact section.
 
 ArtikelSense is described as released on Google Play, based on the confirmed project status. Its repository is private. No user counts or revenue are claimed. Professional experience and recent Java/React product work are distinguished in the toolkit.
 
