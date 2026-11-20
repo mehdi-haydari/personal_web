@@ -1,29 +1,33 @@
 # Mehdi Heydari — Portfolio
 
-A responsive, static portfolio for GitHub Pages. No build step or JavaScript framework is required.
+A responsive React portfolio built with Vite and published as static pages on GitHub Pages.
 
 ## Local preview
 
-Serve this directory with a local HTTP server, then open it in your browser. For example:
+With Node.js 22.12 or later on the 22.x line, or Node.js 24 or later, run:
 
 ```sh
-python3 -m http.server 8766 --bind 127.0.0.1
+npm ci
+npm run dev
 ```
 
 ## Content
 
-- `index.html`: professional experience, selected work, and expandable technical cases.
+- `src/HomePage.jsx`: professional experience, selected work, and expandable technical cases.
+- `src/SiteHeader.jsx`: navigation shared by the homepage and the case study.
 - `styles.css`: shared styles and responsive layouts; retains the original dark, lime, and pixel-heading design.
 - `voice-assistant.css`: project-card and case-study styles.
-- `projects/real-estate-voice-assistant/index.html`: the local AI prototype case study, decisions, technology rationale, evaluation and current restrictions.
-- `assets/artikelsense-icon.png`: actual ArtikelSense app icon.
-- `Mehdi-Heydari-Resume.pdf`: the current general software-engineering résumé, including the published ArtikelSense app and local Voice AI Agent prototype; linked from the hero and contact section.
+- `src/VoiceAgentPage.jsx`: the local AI prototype case study, decisions, technology rationale, evaluation and current restrictions.
+- `index.html` and `projects/real-estate-voice-assistant/index.html`: separate Vite entry pages, keeping both public URLs directly accessible.
+- `public/`: images, diagrams and the general software-engineering résumé. These files keep their public URLs.
 
 ArtikelSense is described as released on Google Play, based on the confirmed project status. Its repository is private. No user counts or revenue are claimed. Professional experience and recent Java/React product work are distinguished in the toolkit.
 
 ## Deploy
 
-The `Deploy portfolio to GitHub Pages` workflow publishes the repository root when a commit is pushed to `main`. Set **Pages → Build and deployment → Source** to **GitHub Actions** in repository settings if needed.
+Run `npm run build` to generate `dist/`. The build renders both React pages to HTML so their content and section links work on first load. Run `npm run preview` to check that output locally.
+
+The `Deploy portfolio to GitHub Pages` workflow builds and packages `dist/` for pull requests to `main`. A push to `main` also deploys the built artifact to the live site. Set **Pages → Build and deployment → Source** to **GitHub Actions** in repository settings if needed.
 
 Keep the résumé filename unchanged when replacing the PDF so existing download links continue to work. Updating files locally does not publish them; deployment is triggered by a push to `main` or a manual workflow run.
 
