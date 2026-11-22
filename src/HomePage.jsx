@@ -16,7 +16,7 @@ export default function HomePage() {
             <a className="action primary" href="#work">View selected work <span className="arrow" aria-hidden="true">↓</span></a>
             <a className="action" href="Mehdi-Heydari-Resume.pdf" download="Mehdi-Heydari-General-Software-Engineer-CV.pdf">Download résumé <span className="arrow" aria-hidden="true">↓</span></a>
           </div>
-          <div className="hero-note"><span>Based in Istanbul, Turkey</span><span>Recent product work: Java / Spring Boot / React / TypeScript</span></div>
+          <div className="hero-note"><span>Based in Istanbul, Turkey</span><span>Recent product work: Python / FastAPI / React / TypeScript</span></div>
         </section>
 
         <section className="shell section" id="work" aria-labelledby="work-title">
